@@ -1,0 +1,6 @@
+{
+  "name": "Financeku Pro",
+  "description": "A professional offline-first personal finance management application with rich charts, asset tracking, debt management, and local backup.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
