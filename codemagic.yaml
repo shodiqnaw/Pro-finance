@@ -1,0 +1,43 @@
+# Codemagic CI/CD Build Configuration for Financeku Pro
+workflows:
+  android-workflow:
+    name: Financeku Pro Android Workflow
+    max_build_duration: 60
+    instance_type: mac_mini_m1
+    environment:
+      groups:
+        - keystore_credentials # Configure in Codemagic environment variables if needed
+      vars:
+        JAVA_VERSION: "17"
+      node: latest
+    triggering:
+      events:
+        - push
+        - tag
+      branches:
+        - main
+        - master
+        - develop
+    scripts:
+      - name: Set up local.properties
+        script: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
+      - name: Set up JDK 17
+        script: |
+          jdk-switch --version 17
+      - name: Build Android APK
+        script: |
+          ./gradlew assembleDebug
+      - name: Build Android Bundle (AAB)
+        script: |
+          ./gradlew bundleDebug
+    artifacts:
+      - app/build/outputs/apk/**/*.apk
+      - app/build/outputs/bundle/**/*.aab
+    publishing:
+      email:
+        recipients:
+          - shodiqnawawi164@gmail.com
+        notify:
+          success: true
+          failure: true
